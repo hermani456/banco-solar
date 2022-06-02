@@ -1,5 +1,6 @@
 const http = require('http')
 const url = require('url')
+const path = require('path')
 const {
 	insertar,
 	consultar,
@@ -13,7 +14,7 @@ http
 	.createServer(async (req, res) => {
 		if (req.url == '/' && req.method === 'GET') {
 			res.setHeader('content-type', 'text/html')
-			const html = fs.readFileSync('index.html', 'utf8')
+			const html = fs.readFileSync(path.join(__dirname, 'index.html'), 'utf8')
 			res.writeHead(200, { 'content-type': 'text/html' })
 			res.end(html)
 		}
@@ -77,8 +78,13 @@ http
 				console.log(body)
 				const datos = Object.values(JSON.parse(body))
 				const respuesta = await transaccion(datos)
+				if (respuesta === null){
+					res.writeHead(400, { 'content-type': 'application/json' })
+					res.end(JSON.stringify({error: 'No se pudo realizar una transacción al mismo usuario'}))
+				}else{
 				res.writeHead(201, { 'content-type': 'application/json' })
 				res.end(JSON.stringify(respuesta))
+				}
 			})
 		}
 	})

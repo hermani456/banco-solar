@@ -49,7 +49,7 @@ const eliminar = async (id) => {
 }
 const consultarTransferencias = async () => {
 	const query = {
-		text: 'select * from transferencias',	
+		text: 'SELECT fecha, nombreemisor.nombre, nombrereceptor.nombre, monto FROM transferencias AS transf INNER JOIN usuarios AS nombreemisor ON transf.emisor = nombreemisor.id INNER JOIN usuarios AS nombrereceptor ON transf.receptor = nombrereceptor.id;',	
 		rowMode: 'array',
 	}
 	try {
@@ -62,6 +62,7 @@ const consultarTransferencias = async () => {
 }
 const transaccion = async (datos) => {
    const [emisor, receptor, monto] = datos
+	if(emisor === receptor) return null
    pool.connect(async (err, client, release) => {
 	await client.query('BEGIN')
 	try {

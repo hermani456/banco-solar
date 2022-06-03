@@ -33,5 +33,5 @@ Habilidades a evaluar
 );`
 4. Descargar o clonar el repositorio.
 5. Dentro de la carpeta raiz del proyecto abrir una terminal y ejecutar el siguiente comando:
-- `npm run setup`
+- `npm install && npm start`
 6. Finalmente ingresar a la siguiente url: http://localhost:3000

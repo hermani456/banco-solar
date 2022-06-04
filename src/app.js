@@ -78,11 +78,12 @@ http
 				console.log(body)
 				const datos = Object.values(JSON.parse(body))
 				const respuesta = await transaccion(datos)
-				if (respuesta === null){
-					res.writeHead(400, { 'content-type': 'application/json' })
+				if (respuesta === false){
+					res.writeHead(400, { 'Content-Type': 'application/json' })
 					res.end(JSON.stringify({error: 'No se pudo realizar una transacción al mismo usuario'}))
 				}else{
-				res.writeHead(201, { 'content-type': 'application/json' })
+				res.writeHead(201, { 'Content-Type': 'application/json' })
+				console.log(JSON.stringify(respuesta))
 				res.end(JSON.stringify(respuesta))
 				}
 			})

@@ -249,11 +249,21 @@
 					monto: Number.parseInt(monto),
 				}),
 			})
+			console.log(response)
+			if(response.status === 201) {
+				location.reload()
+				return
+			}
 			const data = await response.json()
-			location.reload()
+			console.log(data)
+			if (data.error) {
+				alert(data.error)
+			} else {
+				location.reload()
+			}
 		} catch (e) {
 			console.log(e)
-			location.reload()
+			alert('Algo salió mal...' + e)
 		}
 	})
 

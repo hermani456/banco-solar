@@ -62,12 +62,12 @@ const consultarTransferencias = async () => {
 }
 const transaccion = async (datos) => {
    const [emisor, receptor, monto] = datos
-	if(emisor === receptor) return null
+	if(emisor === receptor) return false
    pool.connect(async (err, client, release) => {
 	await client.query('BEGIN')
 	try {
 		const transaction =
-			'INSERT INTO transferencias (emisor, receptor, monto, fecha) values ($1, $2, $3, NOW())'
+			'INSERT INTO transferencias (emisor, receptor, monto, fecha) values ($1, $2, $3, NOW()) RETURNING *'
 		const ultimaTRansaccion = await client.query(transaction, [emisor, receptor, monto])
 		const descontar = 'UPDATE usuarios SET balance = balance - $1 WHERE id = $2'
 		await client.query(descontar, [monto, emisor])
